@@ -1,10 +1,10 @@
 /**
  * This represents the shape of a single chat log item.
  */
-export interface ChatLogItem {
-    id: string;
+export class ChatLogItem {
+    id!: string;
     // `message` is an object, with an `id`, etc.
-    message: {
+    message!: {
         id: string;
         author: {
             role: string;
@@ -26,4 +26,23 @@ export interface ChatLogItem {
         };
         recipient: string;
     };
+
+    /**
+     * Class function to convert an object with keys that are IDs, mapped to objects that can be
+     * cast as ChatLogItems, into an array of ChatLogItems.
+     *
+     * @param obj An object with keys that are IDs, mapped to objects that can be cast as ChatLogItems.
+     * @returns An array of ChatLogItems.
+     */
+    static fromObject(obj: { [key: string]: any }): ChatLogItem[] {
+        const items: ChatLogItem[] = [];
+        for (const key in obj) {
+            if (obj.hasOwnProperty(key)) {
+                const item = obj[key] as ChatLogItem;
+                item.id = key;
+                items.push(item);
+            }
+        }
+        return items;
+    }
 }
