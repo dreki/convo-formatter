@@ -56,6 +56,8 @@ function App() {
                 <h1 className="text-xl">Output</h1>
                 {logList}
             </div>
+
+            <div className="footer mt-12"></div>
         </div>
     );
 }
