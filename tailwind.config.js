@@ -8,4 +8,11 @@ module.exports = {
     extend: {},
   },
   plugins: [require("daisyui")],
+  safelist: [
+    'chat',
+    'chat-start',
+    'chat-end',
+    'chat-bubble-primary',
+    'chat-bubble-secondary',
+  ]
 }

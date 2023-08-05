@@ -1,4 +1,10 @@
+import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 import { ChatLogItem } from "../types/ChatLogItem";
+
+// enum Role {
+//     USER = "user",
+//     ASSISTANT = "assistant",
+// }
 
 /**
  * ChatLogListItemProps interface
@@ -6,6 +12,8 @@ import { ChatLogItem } from "../types/ChatLogItem";
  * @interface ChatLogListItemProps
  */
 interface ChatLogListItemProps {
+    // role: Role;
+    // message: string;
     item: ChatLogItem;
 }
 
@@ -19,17 +27,24 @@ function ChatLogListItem(props: ChatLogListItemProps) {
     // Destructure props
     const { item } = props;
 
+    const startOrEnd =
+        item.message.author.role === "user" ? "chat-end" : "chat-start";
+    const bubblePrimaryOrSecondary =
+        item.message.author.role === "user"
+            ? "chat-bubble-secondary"
+            : "chat-bubble-primary";
+
+    const itemPartsConcatenated: string = item.message.content.parts
+        .map((part) => {
+            return part;
+        })
+        .join("");
+
     return (
-        <div className="flex flex-row">
-            {/* item.message.author.role */}
-            <div className="mr-2">{item.message.author.role}</div>
-            {/* item.message.content.parts, concatenated */}
-            <div>
-                {item.message.content.parts
-                    .map((part) => {
-                        return part;
-                    })
-                    .join("")}
+        <div className={`chat ${startOrEnd}`}>
+            <div className="chat-header">{item.message.author.role}</div>
+            <div className={`chat-bubble ${bubblePrimaryOrSecondary}`}>
+                <ReactMarkdown>{itemPartsConcatenated}</ReactMarkdown>
             </div>
         </div>
     );
@@ -44,7 +59,6 @@ interface ChatLogListProps {
     items: ChatLogItem[];
 }
 
-// ChatLogList functional component
 /**
  * ChatLogList functional component
  *
@@ -55,15 +69,25 @@ function ChatLogList(props: ChatLogListProps) {
     // Destructure props
     const { items } = props;
 
+    // Only use `items` that have a `message` and `item.message.author.role` isn't "system"
+    const itemsWithMessageAndNotSystem = items.filter((item) => {
+        if (item.message && item.message.author.role !== "system") {
+            return true;
+        }
+        return false;
+    });
+
     return (
-        <div className="mt-4">
-            {/* Loop over all `items`, only using ones that have a `message` */}
-            {items.map((item) => {
-                if (item.message) {
-                    return (
-                        <ChatLogListItem key={item.message.id} item={item} />
-                    );
-                }
+        // <div className="mt-4">
+        <div className="mt-4 w-full">
+            <div className="chat chat-start">
+                <div className="chat-header">system</div>
+                <div className="chat-bubble">
+                    Start of conversation with assistant
+                </div>
+            </div>
+            {itemsWithMessageAndNotSystem.map((item) => {
+                return <ChatLogListItem key={item.message.id} item={item} />;
             })}
         </div>
     );
