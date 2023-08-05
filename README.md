@@ -6,7 +6,7 @@ from **ChatGPT**, and displays it as a formatted conversation à la text messagi
 ## Installation
 
 1. Run `yarn install`
-2. Follow the instructions to open the app in your browser
+2. Open your local browser to `http://localhost:3000`
 
 ## Usage
 
