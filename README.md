@@ -1,7 +1,7 @@
-# convo-formatter
+# convo-formatter — ChatGPT Conversation Formatter
 
 This is a simple browser app that lets you upload a JSON file containing a conversation exported
-from ChatGPT, and displays it as a formatted conversation à la text messaging.
+from **ChatGPT**, and displays it as a formatted conversation à la text messaging.
 
 ## Installation
 
